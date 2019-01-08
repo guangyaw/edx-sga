@@ -43,20 +43,15 @@
             <% } %>
           <% } else if (uploaded) { %>
             {% trans "This assignment has not yet been graded." %}
-          <% } else if (upload_allowed) { %>
+          <% } %>
+        </p>
+        <% if (upload_allowed) { %>
+           <% if (!tstaff) { %>
              <p>
                <a class="button finalize-upload">submit</a>
              </p>
-          <% } %>
-        </p>
-{#        <% if (upload_allowed) { %>#}
-{#           <p>#}
-{#             <b>{{ is_course_staff }}</b>#}
-{#           </p>#}
-{#             <p>#}
-{#               <a class="button finalize-upload">submit</a>#}
-{#             </p>#}
-{#        <% } %>#}
+           <% } %>
+        <% } %>
       </div>
 {#    <% } %>#}
     <% if (solution) { %>
