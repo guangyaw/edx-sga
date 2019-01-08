@@ -24,11 +24,16 @@ function StaffGradedAssignmentXBlock(runtime, element) {
           'Started preparing student submissions zip file. This may take a while.'
         );
 
+        var tstaff;
+
         function render(state) {
             // Add download urls to template context
             state.downloadUrl = downloadUrl;
             state.annotatedUrl = annotatedUrl;
             state.error = state.error || false;
+
+            // xyaw add
+            tstaff = isStaff();
 
             // Render template
             var content = $(element).find('#sga-content').html(template(state));
