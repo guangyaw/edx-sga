@@ -9,18 +9,18 @@
         <b><%= display_name %></b>
       </p>
     <% } %>
-{#    <% if (upload_allowed) { %>#}
-{#      <p class="upload">#}
-{#        <label>#}
-{#          <% if (uploaded) { %>#}
-{#            {% trans "Upload a different file" %}#}
-{#          <% } else { %>#}
-{#            {% trans "Upload your assignment" %}#}
-{#          <% } %>#}
-{#          <input class="fileupload" type="file" name="assignment" />#}
-{#        </label>#}
-{#      </p>#}
-{#    <% } %>#}
+    <% if (upload_allowed) { %>
+      <p class="upload">
+        <label>
+          <% if (uploaded) { %>
+            {% trans "Upload a different file" %}
+          <% } else { %>
+            {% trans "Upload your assignment" %}
+          <% } %>
+          <input class="fileupload" type="file" name="assignment" />
+        </label>
+      </p>
+    <% } %>
     <% if (uploaded) { %>
       <div class="sequential-status-message">
         <p>
