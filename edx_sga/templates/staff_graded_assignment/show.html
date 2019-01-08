@@ -22,7 +22,6 @@
 {#      </p>#}
 {#    <% } %>#}
 {#    <% if (uploaded) { %>#}
-    <% if ( (!data-staff) ) { %>
       <div class="sequential-status-message">
 {#        <p>#}
 {#          <b>{% trans "File uploaded" %}</b>#}
@@ -48,7 +47,7 @@
           </p>
 {#        <% } %>#}
       </div>
-    <% } %>
+{#    <% } %>#}
     <% if (solution) { %>
       <div class="solution">
         <%= solution %>

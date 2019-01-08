@@ -299,7 +299,6 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         student_item_dict = self.get_student_item_dict()
         submissions_api.create_submission(student_item_dict, answer)
         # path = self.file_storage_path(sha1, upload.file.name)
-        path = None
         # log.info("Saving file: %s at path: %s for user: %s", upload.file.name, path, user.username)
         log.info("user: %s",  user.username)
 
