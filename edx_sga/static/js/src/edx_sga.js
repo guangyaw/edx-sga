@@ -24,7 +24,7 @@ function StaffGradedAssignmentXBlock(runtime, element) {
           'Started preparing student submissions zip file. This may take a while.'
         );
 
-        var tstaff;
+        // var tstaff;
 
         function render(state) {
             // Add download urls to template context
@@ -33,7 +33,7 @@ function StaffGradedAssignmentXBlock(runtime, element) {
             state.error = state.error || false;
 
             // xyaw add
-            tstaff = isStaff();
+            // tstaff = isStaff();
 
             // Render template
             var content = $(element).find('#sga-content').html(template(state));
