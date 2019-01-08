@@ -45,7 +45,7 @@
             {% trans "This assignment has not yet been graded." %}
           <% } %>
         </p>
-        <% if ( upload_allowed && !({{ is_course_staff }}) ) { %>
+        <% if ( upload_allowed && ({{ is_course_staff }} != 'True') ) { %>
            <p>
              <a class="button finalize-upload">submit</a>
            </p>
