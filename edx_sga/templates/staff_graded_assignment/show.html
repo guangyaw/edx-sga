@@ -42,11 +42,12 @@
             {% trans "This assignment has not yet been graded." %}
           <% } %>
         </p>
-{#        <% if (upload_allowed) { %>#}
-        <% if (data-staff == 'False') { %>
-          <p>
-            <a class="button finalize-upload">submit</a>
-          </p>
+        <% if (upload_allowed) { %>
+          <% if (data-staff == 'False') { %>
+           <p>
+             <a class="button finalize-upload">submit</a>
+           </p>
+          <% } %>
         <% } %>
       </div>
 {#    <% } %>#}
