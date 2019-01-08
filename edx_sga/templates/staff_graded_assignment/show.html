@@ -22,6 +22,7 @@
 {#      </p>#}
 {#    <% } %>#}
 {#    <% if (uploaded) { %>#}
+      <% if (!is_course_staff) { %>
       <div class="sequential-status-message">
 {#        <p>#}
 {#          <b>{% trans "File uploaded" %}</b>#}
@@ -43,11 +44,11 @@
         </p>
 {#        <% if (upload_allowed) { %>#}
           <p>
-            <a class="button finalize-upload">Submit</a>
+            <a class="button finalize-upload">提交成績</a>
           </p>
 {#        <% } %>#}
       </div>
-{#    <% } %>#}
+    <% } %>
     <% if (solution) { %>
       <div class="solution">
         <%= solution %>
