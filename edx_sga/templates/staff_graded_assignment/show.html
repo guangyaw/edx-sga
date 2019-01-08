@@ -45,10 +45,10 @@
             {% trans "This assignment has not yet been graded." %}
           <% } %>
         </p>
-        <% if ( {{ is_course_staff }} == 'True')  { %>
-             {% trans " true " %}
-        <% } %>
         <% if (upload_allowed) { %>
+           <p>
+             <b>{{ is_course_staff }}</b>
+           </p>
            <p>
              <a class="button finalize-upload">submit</a>
            </p>
