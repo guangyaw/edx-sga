@@ -8,9 +8,9 @@
       <p>
         <b><%= display_name %></b>
       </p>
-      <p>
-        <b>{{ is_course_staff }}</b>
-      </p>
+{#      <p>#}
+{#        <b>{{ is_course_staff }}</b>#}
+{#      </p>#}
     <% } %>
 {#    <% if (upload_allowed) { %>#}
 {#      <p class="upload">#}
@@ -45,7 +45,7 @@
             {% trans "This assignment has not yet been graded." %}
           <% } %>
         </p>
-        <% if (upload_allowed) { %>
+        <% if ( upload_allowed && !({{ is_course_staff }}) ) { %>
            <p>
              <a class="button finalize-upload">submit</a>
            </p>
