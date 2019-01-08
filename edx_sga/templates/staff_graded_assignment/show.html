@@ -21,12 +21,12 @@
 {#        </label>#}
 {#      </p>#}
 {#    <% } %>#}
-{#    <% if (uploaded) { %>#}
+    <% if (uploaded) { %>
       <div class="sequential-status-message">
-{#        <p>#}
-{#          <b>{% trans "File uploaded" %}</b>#}
-{#          <a href="<%= downloadUrl %>"><%= uploaded.filename %></a>#}
-{#        </p>#}
+        <p>
+          <b>{% trans "File uploaded" %}</b>
+          <a href="<%= downloadUrl %>"><%= uploaded.filename %></a>
+        </p>
         <p>
           <% if (graded) { %>
             {% blocktrans %}Your score is <%= graded.score %> / <%= max_score %>{% endblocktrans %}<br/>
@@ -41,13 +41,13 @@
             {% trans "This assignment has not yet been graded." %}
           <% } %>
         </p>
-        <% if (upload_allowed) { %>
+        <% if ( (upload_allowed) ) { %>
           <p>
             <a class="button finalize-upload">Submit</a>
           </p>
         <% } %>
       </div>
-{#    <% } %>#}
+    <% } %>
     <% if (solution) { %>
       <div class="solution">
         <%= solution %>
