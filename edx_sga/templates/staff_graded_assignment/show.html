@@ -9,24 +9,24 @@
         <b><%= display_name %></b>
       </p>
     <% } %>
-    <% if (upload_allowed) { %>
-      <p class="upload">
-        <label>
-          <% if (uploaded) { %>
-            {% trans "Upload a different file" %}
-          <% } else { %>
-            {% trans "Upload your assignment" %}
-          <% } %>
-          <input class="fileupload" type="file" name="assignment" />
-        </label>
-      </p>
-    <% } %>
-    <% if (uploaded) { %>
+{#    <% if (upload_allowed) { %>#}
+{#      <p class="upload">#}
+{#        <label>#}
+{#          <% if (uploaded) { %>#}
+{#            {% trans "Upload a different file" %}#}
+{#          <% } else { %>#}
+{#            {% trans "Upload your assignment" %}#}
+{#          <% } %>#}
+{#          <input class="fileupload" type="file" name="assignment" />#}
+{#        </label>#}
+{#      </p>#}
+{#    <% } %>#}
+{#    <% if (uploaded) { %>#}
       <div class="sequential-status-message">
-        <p>
-          <b>{% trans "File uploaded" %}</b>
-          <a href="<%= downloadUrl %>"><%= uploaded.filename %></a>
-        </p>
+{#        <p>#}
+{#          <b>{% trans "File uploaded" %}</b>#}
+{#          <a href="<%= downloadUrl %>"><%= uploaded.filename %></a>#}
+{#        </p>#}
         <p>
           <% if (graded) { %>
             {% blocktrans %}Your score is <%= graded.score %> / <%= max_score %>{% endblocktrans %}<br/>
@@ -47,7 +47,7 @@
           </p>
         <% } %>
       </div>
-    <% } %>
+{#    <% } %>#}
     <% if (solution) { %>
       <div class="solution">
         <%= solution %>
