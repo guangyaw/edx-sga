@@ -22,7 +22,7 @@
 {#      </p>#}
 {#    <% } %>#}
 {#    <% if (uploaded) { %>#}
-      <% if !(is_course_staff) { %>
+      <% if (data-staff == 'False') { %>
       <div class="sequential-status-message">
 {#        <p>#}
 {#          <b>{% trans "File uploaded" %}</b>#}
