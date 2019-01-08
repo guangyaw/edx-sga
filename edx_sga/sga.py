@@ -282,6 +282,27 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
     @XBlock.handler
     def finalize_uploaded_assignment(self, request, suffix=''):
         # pylint: disable=unused-argument
+
+        # xyaw modify
+        user = self.get_real_user()
+        require(user)
+
+        # Uploading an assignment represents a change of state with this user in this block,
+        # so we need to ensure that the user has a StudentModule record, which represents that state.
+        self.get_or_create_student_module(user)
+        answer = {
+            "sha1": None,
+            "filename": None,
+            "mimetype": None,
+            "finalized": False
+        }
+        student_item_dict = self.get_student_item_dict()
+        submissions_api.create_submission(student_item_dict, answer)
+        # path = self.file_storage_path(sha1, upload.file.name)
+        path = None
+        # log.info("Saving file: %s at path: %s for user: %s", upload.file.name, path, user.username)
+        log.info("user: %s",  user.username)
+
         """
         Finalize a student's uploaded submission. This prevents further uploads for the
         given block, and makes the submission available to instructors for grading
@@ -294,6 +315,8 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
             submission.answer['finalized'] = True
             submission.submitted_at = django_now()
             submission.save()
+
+        # xyaw modify
         return Response(json_body=self.student_state())
 
     @XBlock.handler
