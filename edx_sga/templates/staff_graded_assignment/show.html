@@ -8,6 +8,9 @@
       <p>
         <b><%= display_name %></b>
       </p>
+      <p>
+        <b><%= data-staff %></b>
+      </p>
     <% } %>
 {#    <% if (upload_allowed) { %>#}
 {#      <p class="upload">#}
@@ -43,11 +46,9 @@
           <% } %>
         </p>
         <% if (upload_allowed) { %>
-          <% if (data-staff == 'False') { %>
            <p>
              <a class="button finalize-upload">submit</a>
            </p>
-          <% } %>
         <% } %>
       </div>
 {#    <% } %>#}
