@@ -317,9 +317,13 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         # data = {'problem_id': '2', 'stu_name': user.username}
         data = {'problem_id': '2', 'stu_name': 'guangyaw'}
         r = requests.get("https://oj.openedu.tw/api/zlogin", data=data)
+
+        log.info("returnbystr : %s , reint = %d ", r.text, int(r.get["GetScore"]))
+
         getfromoj = ast.literal_eval(r)
         score = int(getfromoj["GetScore"])
-        print(score)
+
+        log.info("guangyaw grade : %d ", score)
 
         """
         Finalize a student's uploaded submission. This prevents further uploads for the
