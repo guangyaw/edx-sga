@@ -8,8 +8,10 @@ import mimetypes
 import os
 import urllib
 
-# xyaw add
+# guangyaw add for grade
 import requests
+import ast
+# guangyaw add for grade --end
 
 from contextlib import closing
 from zipfile import ZipFile
@@ -286,7 +288,7 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
     def finalize_uploaded_assignment(self, request, suffix=''):
         # pylint: disable=unused-argument
 
-        # xyaw modify
+        # guangyaw modify
         user = self.get_real_user()
         require(user)
 
@@ -312,9 +314,12 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         # log.info("Saving file: %s at path: %s for user: %s", upload.file.name, path, user.username)
         log.info("user: %s", user.username)
 
-        data = {'problem_id': '2', 'stu_name': user.username}
+        # data = {'problem_id': '2', 'stu_name': user.username}
+        data = {'problem_id': '2', 'stu_name': 'guangyaw'}
         r = requests.get("https://oj.openedu.tw/api/zlogin", data=data)
-        print(r.text)
+        getfromoj = ast.literal_eval(r)
+        score = int(getfromoj["GetScore"])
+        print(score)
 
         """
         Finalize a student's uploaded submission. This prevents further uploads for the
@@ -327,7 +332,7 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
 
         state = json.loads(module.state)
         # score = int(r.text)
-        score = 99
+        # score = 99
 
         # if self.is_instructor():
         uuid = submission_data['uuid']
