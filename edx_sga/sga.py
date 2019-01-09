@@ -8,6 +8,9 @@ import mimetypes
 import os
 import urllib
 
+# xyaw add
+import requests
+
 from contextlib import closing
 from zipfile import ZipFile
 import pkg_resources
@@ -287,9 +290,16 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         user = self.get_real_user()
         require(user)
 
+        # problem_id = data["problem_id"]
+        # stu_name = data["stu_name"]
+        #
+        # data = {'problem_id': '2', 'stu_name': 'guangyaw'}
+        # r = requests.post("https://oj.openedu.tw/api/zlogin", data=data)
+        # print(r.text)
+
         # Uploading an assignment represents a change of state with this user in this block,
         # so we need to ensure that the user has a StudentModule record, which represents that state.
-        self.get_or_create_student_module(user)
+        module = self.get_or_create_student_module(user)
         answer = {
             "sha1": None,
             "filename": None,
@@ -300,7 +310,11 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         submissions_api.create_submission(student_item_dict, answer)
         # path = self.file_storage_path(sha1, upload.file.name)
         # log.info("Saving file: %s at path: %s for user: %s", upload.file.name, path, user.username)
-        log.info("user: %s",  user.username)
+        log.info("user: %s", user.username)
+
+        data = {'problem_id': '2', 'stu_name': user.username}
+        r = requests.get("https://oj.openedu.tw/api/zlogin", data=data)
+        print(r.text)
 
         """
         Finalize a student's uploaded submission. This prevents further uploads for the
@@ -310,12 +324,29 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         require(self.upload_allowed(submission_data=submission_data))
         # Editing the Submission record directly since the API doesn't support it
         submission = Submission.objects.get(uuid=submission_data['uuid'])
+
+        state = json.loads(module.state)
+        score = int(r.text)
+
+        # if self.is_instructor():
+        uuid = submission_data['uuid']
+        submissions_api.set_score(uuid, score, self.max_score())
+        state['staff_score'] = score
+        state['comment'] = 'init_score'
+        module.state = json.dumps(state)
+        module.save()
+        log.info(
+            "enter_grade for course:%s module:%s student:%s",
+            module.course_id,
+            module.module_state_key,
+            module.student.username
+        )
+
         if not submission.answer.get('finalized'):
             submission.answer['finalized'] = True
             submission.submitted_at = django_now()
             submission.save()
 
-        # xyaw modify
         return Response(json_body=self.student_state())
 
     @XBlock.handler
