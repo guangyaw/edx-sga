@@ -326,7 +326,8 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         submission = Submission.objects.get(uuid=submission_data['uuid'])
 
         state = json.loads(module.state)
-        score = int(r.text)
+        # score = int(r.text)
+        score = 99
 
         # if self.is_instructor():
         uuid = submission_data['uuid']
