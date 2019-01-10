@@ -89,7 +89,7 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
 
     display_name = String(
         display_name=_("Problem Name"),
-        default=_('a_plus_b'),
+        default=_('External Grade'),
         scope=Scope.settings,
         help=_("This name appears in the horizontal navigation at the top of "
                "the page. Please modify as problem display id")
