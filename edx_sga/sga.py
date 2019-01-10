@@ -10,7 +10,6 @@ import urllib
 
 # guangyaw add for grade
 import requests
-import ast
 # guangyaw add for grade --end
 
 from contextlib import closing
@@ -90,10 +89,10 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
 
     display_name = String(
         display_name=_("Display Name"),
-        default=_('Staff Graded Assignment'),
+        default=_('a_plus_b'),
         scope=Scope.settings,
         help=_("This name appears in the horizontal navigation at the top of "
-               "the page.")
+               "the page. Please modify as problem display id")
     )
 
     weight = Float(
@@ -292,13 +291,6 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         user = self.get_real_user()
         require(user)
 
-        # problem_id = data["problem_id"]
-        # stu_name = data["stu_name"]
-        #
-        # data = {'problem_id': '2', 'stu_name': 'guangyaw'}
-        # r = requests.post("https://oj.openedu.tw/api/zlogin", data=data)
-        # print(r.text)
-
         # Uploading an assignment represents a change of state with this user in this block,
         # so we need to ensure that the user has a StudentModule record, which represents that state.
         module = self.get_or_create_student_module(user)
@@ -314,22 +306,6 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         # log.info("Saving file: %s at path: %s for user: %s", upload.file.name, path, user.username)
         log.info("user: %s", user.username)
 
-        # ssdata = {'problem_id': '2', 'stu_name': user.username}
-        sdata = {"problem_id": 2, "stu_name": "guangyaw"}
-        # sdata = json.dumps(ssdata)
-        # sdata = dict(problem_id='2', stu_name='guangyaw')
-        r = requests.get("https://oj.openedu.tw/api/zlogin", data=sdata)
-        log.info("test point 1 ")
-        log.info("%s",r.text)
-        # log.info("get: %s", r.text)
-        # log.info("code: %d", r.status_code)
-
-    #    retjson = json.dumps(r)
-        retdata = json.loads(r.text)
-        log.info("test point 2 ")
-        score = retdata["GetScore"]
-        log.info("test point 3 ")
-
         """
         Finalize a student's uploaded submission. This prevents further uploads for the
         given block, and makes the submission available to instructors for grading
@@ -340,7 +316,15 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         submission = Submission.objects.get(uuid=submission_data['uuid'])
 
         state = json.loads(module.state)
-        # score = int(r.text)
+
+        sdata = {"course_id": self.block_course_id, "stu_name": user.username, "problem_display": self.display_name}
+        # sdata = {"course_id": self.block_course_id, "stu_name": "guangyaw", "problem_display": self.display_name}
+        r = requests.get("https://oj.openedu.tw/api/zlogin", params=sdata)
+
+        log.info("%s", r.text)
+        # log.info("code: %d", r.status_code)
+        retdata = json.loads(r.text)
+        score = retdata["data"]["GetScore"]
         # score = 99
 
         # if self.is_instructor():
