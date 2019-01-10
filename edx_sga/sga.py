@@ -314,16 +314,20 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         # log.info("Saving file: %s at path: %s for user: %s", upload.file.name, path, user.username)
         log.info("user: %s", user.username)
 
-        # data = {'problem_id': '2', 'stu_name': user.username}
-        data = {'problem_id': '2', 'stu_name': 'guangyaw'}
-        r = requests.get("https://oj.openedu.tw/api/zlogin", data=data)
+        # ssdata = {'problem_id': '2', 'stu_name': user.username}
+        ssdata = {'problem_id': '2', 'stu_name': 'guangyaw'}
+        sdata = json.dumps(ssdata)
+        # sdata = dict(problem_id='2', stu_name='guangyaw')
+        r = requests.get("https://oj.openedu.tw/api/zlogin", data=sdata)
+        log.info("test point 1 ")
+        # log.info("get: %s", r.text)
+        # log.info("code: %d", r.status_code)
 
-        log.info("returnbystr : %s , reint = %d ", r.text, int(r.get["GetScore"]))
-
-        getfromoj = ast.literal_eval(r)
-        score = int(getfromoj["GetScore"])
-
-        log.info("guangyaw grade : %d ", score)
+    #    retjson = json.dumps(r)
+        retdata = json.loads(r)
+        log.info("test point 2 ")
+        score = retdata['GetScore']
+        log.info("test point 3 ")
 
         """
         Finalize a student's uploaded submission. This prevents further uploads for the
