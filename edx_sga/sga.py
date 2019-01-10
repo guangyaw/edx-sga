@@ -315,18 +315,19 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         log.info("user: %s", user.username)
 
         # ssdata = {'problem_id': '2', 'stu_name': user.username}
-        ssdata = {'problem_id': '2', 'stu_name': 'guangyaw'}
-        sdata = json.dumps(ssdata)
+        sdata = {"problem_id": 2, "stu_name": "guangyaw"}
+        # sdata = json.dumps(ssdata)
         # sdata = dict(problem_id='2', stu_name='guangyaw')
         r = requests.get("https://oj.openedu.tw/api/zlogin", data=sdata)
         log.info("test point 1 ")
+        log.info("%s",r.text)
         # log.info("get: %s", r.text)
         # log.info("code: %d", r.status_code)
 
     #    retjson = json.dumps(r)
-        retdata = json.loads(r)
+        retdata = json.loads(r.text)
         log.info("test point 2 ")
-        score = retdata['GetScore']
+        score = retdata["GetScore"]
         log.info("test point 3 ")
 
         """
