@@ -88,7 +88,7 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
     editable_fields = ('display_name', 'points', 'weight', 'showanswer', 'solution')
 
     display_name = String(
-        display_name=_("Display Name"),
+        display_name=_("Problem Name"),
         default=_('a_plus_b'),
         scope=Scope.settings,
         help=_("This name appears in the horizontal navigation at the top of "
