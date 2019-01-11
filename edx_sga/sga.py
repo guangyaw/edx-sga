@@ -322,7 +322,8 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         r = requests.get("https://oj.openedu.tw/api/zlogin", params=sdata)
 
         log.info("%s", r.text)
-        # log.info("code: %d", r.status_code)
+        log.info("code: %d", r.status_code)
+
         retdata = json.loads(r.text)
         score = retdata["data"]["GetScore"]
         # score = 99
