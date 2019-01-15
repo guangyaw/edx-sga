@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+Version 0.8.3.1
+-------------
+
+- Create version control for oj
+- Add error handle for oj grade
+- Remove useless button
+- Modify the display name as 'problem name'
+
+
 Version 0.8.3 (Released August 22, 2018)
 -------------
 

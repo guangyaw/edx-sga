@@ -32,9 +32,6 @@ function StaffGradedAssignmentXBlock(runtime, element) {
             state.annotatedUrl = annotatedUrl;
             state.error = state.error || false;
 
-            // xyaw add
-            // tstaff = isStaff();
-
             // Render template
             var content = $(element).find('#sga-content').html(template(state));
 
@@ -44,8 +41,9 @@ function StaffGradedAssignmentXBlock(runtime, element) {
                       render(state);
                   }
               ).fail(
-                  function () {
-                      state.error = gettext('Submission failed. Please contact your course instructor.');
+                  function (state) {
+                      // target
+
                       render(state);
                   }
               );

@@ -291,6 +291,14 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         user = self.get_real_user()
         require(user)
 
+        sdata = {"course_id": self.block_course_id, "stu_name": user.username, "problem_display": self.display_name}
+        # sdata = {"course_id": self.block_course_id, "stu_name": "guangyaw", "problem_display": self.display_name}
+        r = requests.get("https://oj.openedu.tw/api/zlogin", params=sdata)
+        retdata = json.loads(r.text)
+
+        if retdata["error"] != "null":
+            raise JsonHandlerError(400, retdata["data"])
+
         # Uploading an assignment represents a change of state with this user in this block,
         # so we need to ensure that the user has a StudentModule record, which represents that state.
         module = self.get_or_create_student_module(user)
@@ -317,18 +325,10 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
 
         state = json.loads(module.state)
 
-        sdata = {"course_id": self.block_course_id, "stu_name": user.username, "problem_display": self.display_name}
-        # sdata = {"course_id": self.block_course_id, "stu_name": "guangyaw", "problem_display": self.display_name}
-        r = requests.get("https://oj.openedu.tw/api/zlogin", params=sdata)
-
         log.info("%s", r.text)
         log.info("code: %d", r.status_code)
 
-        retdata = json.loads(r.text)
         score = retdata["data"]["GetScore"]
-        # score = 99
-
-        # if self.is_instructor():
         uuid = submission_data['uuid']
         submissions_api.set_score(uuid, score, self.max_score())
         state['staff_score'] = score

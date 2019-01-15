@@ -1,3 +1,12 @@
+The xblock has been modified by Guangyaw.
+Original version is Staff Graded Assignment XBlock Version : 0.8.3
+If you are trying to look for original edx-sga, please ignore this one.
+
+
+Original :
+https://github.com/mitodl/edx-sga
+And below is the original readme
+================================================================================
 # Staff Graded Assignment XBlock
 
 This package provides an XBlock for use with the open edX platform which
