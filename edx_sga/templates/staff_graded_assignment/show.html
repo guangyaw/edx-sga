@@ -3,6 +3,8 @@
 <div class="sga-block" data-state="{{ student_state }}"
      data-max-size="{{ max_file_size }}" data-support-email="{{ support_email }}"
      data-staff="{{ is_course_staff }}">
+
+  {% if not is_course_staff %}
   <script type="text/template" id="sga-tmpl">
     <% if (display_name) { %>
       <p>
@@ -61,6 +63,7 @@
       <p class="error" tabindex="-1" aria-live="polite"><%= error %></p>
     <% } %>
   </script>
+  {% endif %}
 
   <div id="sga-content">
   </div>
