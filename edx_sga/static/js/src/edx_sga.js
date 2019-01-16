@@ -38,12 +38,12 @@ function StaffGradedAssignmentXBlock(runtime, element) {
             $(content).find('.finalize-upload').on('click', function() {
               $.post(finalizeUploadUrl).success(
                   function (state) {
+                      location.reload();
                       render(state);
                   }
               ).fail(
-                  function (state) {
+                  function () {
                       // target
-
                       render(state);
                   }
               );

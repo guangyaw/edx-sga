@@ -37,7 +37,9 @@ from webob.response import Response
 from xblock.core import XBlock  # lint-amnesty, pylint: disable=import-error
 from xblock.exceptions import JsonHandlerError  # lint-amnesty, pylint: disable=import-error
 from xblock.fields import DateTime, Scope, String, Float, Integer  # lint-amnesty, pylint: disable=import-error
-from xblock.fragment import Fragment  # lint-amnesty, pylint: disable=import-error
+# guangyaw
+# from xblock.fragment import Fragment  # lint-amnesty, pylint: disable=import-error
+from web_fragments.fragment import Fragment  # lint-amnesty, pylint: disable=import-error
 from xblockutils.studio_editable import StudioEditableXBlockMixin
 from xmodule.util.duedate import get_extended_due_date  # lint-amnesty, pylint: disable=import-error
 from xmodule.contentstore.content import StaticContent
@@ -89,7 +91,7 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
 
     display_name = String(
         display_name=_("Problem Name"),
-        default=_('External Grade'),
+        default=_("External Grade"),
         scope=Scope.settings,
         help=_("This name appears in the horizontal navigation at the top of "
                "the page. Please modify as problem display id")
@@ -291,13 +293,10 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         user = self.get_real_user()
         require(user)
 
-        sdata = {"course_id": self.block_course_id, "stu_name": user.username, "problem_display": self.display_name}
-        # sdata = {"course_id": self.block_course_id, "stu_name": "guangyaw", "problem_display": self.display_name}
+        # sdata = {"course_id": self.block_course_id, "stu_name": user.username, "problem_display": self.display_name}
+        sdata = {"course_id": self.block_course_id, "stu_name": "guangyaw", "problem_display": self.display_name}
         r = requests.get("https://oj.openedu.tw/api/zlogin", params=sdata)
         retdata = json.loads(r.text)
-
-        if retdata["error"] != "null":
-            raise JsonHandlerError(400, retdata["data"])
 
         # Uploading an assignment represents a change of state with this user in this block,
         # so we need to ensure that the user has a StudentModule record, which represents that state.
@@ -326,13 +325,19 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         state = json.loads(module.state)
 
         log.info("%s", r.text)
-        log.info("code: %d", r.status_code)
-
-        score = retdata["data"]["GetScore"]
+        # log.info("code: %d", r.status_code)
         uuid = submission_data['uuid']
+
+        if retdata["error"]:
+            score = 0
+            state['comment'] = retdata["data"]
+            state['staff_score'] = score
+        else:
+            score = retdata["data"]["GetScore"]
+            state['comment'] = ''
+            state['staff_score'] = score
+
         submissions_api.set_score(uuid, score, self.max_score())
-        state['staff_score'] = score
-        state['comment'] = 'init_score'
         module.state = json.dumps(state)
         module.save()
         log.info(
@@ -342,10 +347,11 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
             module.student.username
         )
 
-        if not submission.answer.get('finalized'):
-            submission.answer['finalized'] = True
-            submission.submitted_at = django_now()
-            submission.save()
+        if not retdata["error"]:
+            if not submission.answer.get('finalized'):
+                submission.answer['finalized'] = True
+                submission.submitted_at = django_now()
+                submission.save()
 
         return Response(json_body=self.student_state())
 
@@ -640,6 +646,7 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         context = {
             "student_state": json.dumps(self.student_state()),
             "id": self.location.name.replace('.', '_'),
+            # "id": self.block_id.replace('.', '_'),
             "max_file_size": self.student_upload_max_size(),
             "support_email": settings.TECH_SUPPORT_EMAIL
         }
