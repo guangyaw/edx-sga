@@ -57,13 +57,13 @@
                <a class="button finalize-upload">submit</a>
              </p>
           <% } %>
-          <% if (graded) { %>
-            <% if (graded.comment) { %>
-              <p>
-               <a class="button finalize-upload">submit</a>
-             </p>
-            <% } %>
-          <% } %>
+{#          <% if (graded) { %>#}
+{#            <% if (graded.comment) { %>#}
+{#              <p>#}
+{#               <a class="button finalize-upload">submit</a>#}
+{#             </p>#}
+{#            <% } %>#}
+{#          <% } %>#}
       </div>
 {#    <% } %>#}
     <% if (solution) { %>
@@ -221,9 +221,9 @@
             <button type="button" id="enter-grade-cancel">
               {% trans "Cancel" %}
             </button>
-            <button type="button" id="remove-grade">
-              {% trans "Remove grade" %}
-            </button>
+{#            <button type="button" id="remove-grade">#}
+{#              {% trans "Remove grade" %}#}
+{#            </button>#}
             <i class="fa fa-spinner fa-pulse ccx-enter-grade-spinner"></i>
           </div>
         </form>
