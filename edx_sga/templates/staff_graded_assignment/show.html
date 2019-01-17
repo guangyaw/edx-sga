@@ -91,7 +91,7 @@
         <th class="header">{% trans "Uploaded" %} <i class="icon fa fa-sort"/></th>
         <th class="header">{% trans "Submitted" %} <i class="icon fa fa-sort"/></th>
         <th class="header">{% trans "Grade" %} <i class="icon fa fa-sort"/></th>
-        <th class="header">{% trans "Instructor's comments" %} <i class="icon fa fa-sort"/></th>
+        <th class="header">{% trans "Error message" %} <i class="icon fa fa-sort"/></th>
 {#        <th class="header">{% trans "Annotated" %} <i class="icon fa fa-sort"/></th>#}
         <th class="header" colspan="2">{% trans "Actions" %}</th>
       </tr>
@@ -215,7 +215,7 @@
           <div>{% blocktrans with student_name="<span id='student-name'/>" %}Grade for {{student_name}}{% endblocktrans %}</div>
           <div>{% trans "Grade:" %} <input id="grade-input" name="grade"/>
             <span class="error"></span></div>
-          <div>{% trans "Comment:" %} <textarea id="comment-input" name="comment" rows="4"></textarea></div>
+{#          <div>{% trans "Comment:" %} <textarea id="comment-input" name="comment" rows="4"></textarea></div>#}
           <div>
             <button type="submit">{% trans "Submit" %}</button>
             <button type="button" id="enter-grade-cancel">
