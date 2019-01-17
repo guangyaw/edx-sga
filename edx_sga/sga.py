@@ -320,8 +320,10 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         state = json.loads(module.state)
 
         uuid = submission_data['uuid']
-
+# guangyaw
 # If need  , change the block for another external grade
+# state['comment'] is error message , if true , the show.html only display the error message
+# score is target grade , the value will show on show.html if no error message
 
         # sdata = {"course_id": self.block_course_id, "stu_name": user.username, "problem_display": self.display_name}
         sdata = {"course_id": self.block_course_id, "stu_name": "guangyaw", "problem_display": self.display_name}
@@ -332,14 +334,13 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         if retdata["error"]:
             score = 0
             state['comment'] = retdata["data"]
-            state['staff_score'] = score
         else:
             score = retdata["data"]["GetScore"]
             state['comment'] = ''
-            state['staff_score'] = score
 
 # If need  , change the block for another external grade --end
 
+        state['staff_score'] = score
         submissions_api.set_score(uuid, score, self.max_score())
         module.state = json.dumps(state)
         module.save()
