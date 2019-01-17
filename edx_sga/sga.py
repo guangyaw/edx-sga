@@ -60,6 +60,8 @@ from edx_sga.utils import (
     file_contents_iter,
 )
 
+from edx_sga.constants import ShowServer
+
 log = logging.getLogger(__name__)
 
 
@@ -87,7 +89,7 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
     has_score = True
     icon_class = 'problem'
     STUDENT_FILEUPLOAD_MAX_SIZE = 4 * 1000 * 1000  # 4 MB
-    editable_fields = ('display_name', 'points', 'weight', 'showanswer', 'solution')
+    editable_fields = ('display_name', 'grade_source' , 'points' ) # , 'weight', 'showanswer', 'solution')
 
     display_name = String(
         display_name=_("Problem Name"),
@@ -95,6 +97,18 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         scope=Scope.settings,
         help=_("This name appears in the horizontal navigation at the top of "
                "the page. Please modify as problem display id")
+    )
+
+    grade_source = String(
+        display_name=_("Select External Grade Server"),
+        help=_("Choose the external grade server"
+               "Default is OJ_server"),
+        scope=Scope.settings,
+        default=ShowServer.OJ,  # Default to ShowServer.OJ
+        values=[
+            {"display_name": _("OJ_server"), "value": ShowServer.OJ},
+            {"display_name": _("LAB_server"), "value": ShowServer.LAB},
+        ]
     )
 
     weight = Float(
@@ -327,19 +341,35 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
 # score is target grade , the value will show on show.html if no error message
 # retdata["error"] true , there is something wrong
 
-        sdata = {"course_id": self.block_course_id, "stu_name": user.username, "problem_display": self.display_name}
-        # test data
-        # sdata = {"course_id": self.block_course_id, "stu_name": "guangyaw", "problem_display": self.display_name}
-        r = requests.get("https://oj.openedu.tw/api/zlogin", params=sdata)
-        retdata = json.loads(r.text)
-        log.info("%s", r.text)
+        if self.grade_source == ShowServer.OJ:
+            sdata = {"course_id": self.block_course_id, "stu_name": user.username, "problem_display": self.display_name}
+            # test data
+            # sdata = {"course_id": self.block_course_id, "stu_name": "guangyaw", "problem_display": self.display_name}
+            r = requests.get("https://oj.openedu.tw/api/zlogin", params=sdata)
+            retdata = json.loads(r.text)
+            log.info("%s", r.text)
 
-        if retdata["error"]:
-            score = 0
-            state['comment'] = retdata["data"]
-        else:
-            score = retdata["data"]["GetScore"]
-            state['comment'] = ''
+            if retdata["error"]:
+                score = 0
+                state['comment'] = retdata["data"]
+            else:
+                score = retdata["data"]["GetScore"]
+                state['comment'] = ''
+
+        # elif self.grade_source == ShowServer.LAB:
+        #     # code for LAB
+        #     sdata = {"course_id": self.block_course_id, "stu_name": "guangyaw", "problem_display": self.display_name}
+        #     r = requests.get("https://oj.openedu.tw/api/zlogin", params=sdata)
+        #     retdata = json.loads(r.text)
+        #     log.info("%s", r.text)
+        #
+        #     if retdata["error"]:
+        #         score = 0
+        #         state['comment'] = retdata["data"]
+        #     else:
+        #         score = retdata["data"]["GetScore"]
+        #         state['comment'] = ''
+
 
 # If need  , change the block for another external grade --end
 
