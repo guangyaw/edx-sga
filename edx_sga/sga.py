@@ -325,8 +325,9 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
 # state['comment'] is error message , if true , the show.html only display the error message
 # score is target grade , the value will show on show.html if no error message
 
-        # sdata = {"course_id": self.block_course_id, "stu_name": user.username, "problem_display": self.display_name}
-        sdata = {"course_id": self.block_course_id, "stu_name": "guangyaw", "problem_display": self.display_name}
+        sdata = {"course_id": self.block_course_id, "stu_name": user.username, "problem_display": self.display_name}
+        # test data
+        # sdata = {"course_id": self.block_course_id, "stu_name": "guangyaw", "problem_display": self.display_name}
         r = requests.get("https://oj.openedu.tw/api/zlogin", params=sdata)
         retdata = json.loads(r.text)
         log.info("%s", r.text)
