@@ -8,6 +8,7 @@ Version 0.8.3.1
 - Add error handle for oj grade
 - Remove useless button
 - Modify the display name as 'problem name'
+- Add setting item for LAB
 
 
 Version 0.8.3 (Released August 22, 2018)
