@@ -355,20 +355,19 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
             else:
                 score = retdata["data"]["GetScore"]
                 state['comment'] = ''
+        elif self.grade_source == ShowServer.LAB:
+            # code for LAB
+            sdata = {"course_id": self.block_course_id, "stu_name": user.username, "problem_display": self.display_name}
+            r = requests.get("https://lab.openedu.tw/api/score/", params=sdata)
+            retdata = json.loads(r.text)
+            log.info("%s", r.text)
 
-        # elif self.grade_source == ShowServer.LAB:
-        #     # code for LAB
-        #     sdata = {"course_id": self.block_course_id, "stu_name": "guangyaw", "problem_display": self.display_name}
-        #     r = requests.get("https://oj.openedu.tw/api/zlogin", params=sdata)
-        #     retdata = json.loads(r.text)
-        #     log.info("%s", r.text)
-        #
-        #     if retdata["error"]:
-        #         score = 0
-        #         state['comment'] = retdata["data"]
-        #     else:
-        #         score = retdata["data"]["GetScore"]
-        #         state['comment'] = ''
+            if retdata["error"]:
+                score = 0
+                state['comment'] = retdata["data"]
+            else:
+                score = retdata["data"]["GetScore"]
+                state['comment'] = ''
 
 
 # If need  , change the block for another external grade --end
