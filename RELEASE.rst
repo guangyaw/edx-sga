@@ -1,5 +1,8 @@
 Release Notes
 =============
+Version 0.8.3.2
+-------------
+- Add parameter lab_id for LAB
 
 Version 0.8.3.1
 -------------

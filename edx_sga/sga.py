@@ -89,7 +89,7 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
     has_score = True
     icon_class = 'problem'
     STUDENT_FILEUPLOAD_MAX_SIZE = 4 * 1000 * 1000  # 4 MB
-    editable_fields = ('display_name', 'grade_source' , 'points' ) # , 'weight', 'showanswer', 'solution')
+    editable_fields = ('display_name', 'grade_source', 'points', 'display_item_id') # , 'weight', 'showanswer', 'solution')
 
     display_name = String(
         display_name=_("Problem Name"),
@@ -97,6 +97,13 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
         scope=Scope.settings,
         help=_("This name appears in the horizontal navigation at the top of "
                "the page. Please modify as problem display id")
+    )
+
+    display_item_id = String(
+        display_name=_("LAB id"),
+        default=_(""),
+        scope=Scope.settings,
+        help=_("This should be the lab_id. Only for LAB ")
     )
 
     grade_source = String(
@@ -357,7 +364,7 @@ class StaffGradedAssignmentXBlock(StudioEditableXBlockMixin, ShowAnswerXBlockMix
                 state['comment'] = ''
         elif self.grade_source == ShowServer.LAB:
             # code for LAB
-            sdata = {"course_id": self.block_course_id, "stu_name": user.username, "problem_display": self.display_name}
+            sdata = {"lab_id": self.display_item_id, "course_id": self.block_course_id, "stu_name": user.username, "problem_display": self.display_name}
             r = requests.get("https://lab.openedu.tw/api/score/", params=sdata)
             retdata = json.loads(r.text)
             log.info("%s", r.text)
