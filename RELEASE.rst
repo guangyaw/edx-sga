@@ -1,5 +1,9 @@
 Release Notes
 =============
+Version 0.8.3.3
+-------------
+- Change the name of the grade submit button
+
 Version 0.8.3.2
 -------------
 - Add parameter lab_id for LAB
