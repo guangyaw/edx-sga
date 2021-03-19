@@ -3,7 +3,7 @@ codecov
 coverage==4.4.2
 cryptography==1.9
 ddt==1.1.1
-djangorestframework==3.6.4
+djangorestframework==3.11.2
 edx-celeryutils==0.2.6
 edx-lint==0.5.4
 edx-opaque-keys==0.4
