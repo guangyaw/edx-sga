@@ -1,4 +1,4 @@
-celery==3.1.18
+celery==5.2.2
 codecov
 coverage==4.4.2
 cryptography==1.9
