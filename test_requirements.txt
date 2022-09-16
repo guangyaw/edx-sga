@@ -8,7 +8,7 @@ edx-celeryutils==0.2.6
 edx-lint==0.5.4
 edx-opaque-keys==0.4
 edx-submissions==2.0.12
-mako==1.0.7
+mako==1.2.2
 mock==2.0.0
 pdbpp
 pep8==1.6.2
